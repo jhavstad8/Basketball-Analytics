@@ -180,4 +180,11 @@ Now each variable name is simpler and does not contain the ".x" or ".y" from mer
 ```{r}
 write.csv(NBA23,"NBA23.csv", row.names = FALSE)
 ```
+
 This data set will be used to create the player evaluation metric and contains the individual data sets of totals, advanced, and shooting. I decided to not use the per game data set as all of those statistics can be calculated from the totals data set.
+
+```{r}
+dim(NBA23)
+```
+
+The "NBA23" data set contains 65 columns (variables) and 540 rows representing the 540 different players from the 2022-2023 NBA season.
