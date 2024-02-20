@@ -1,0 +1,56 @@
+---
+title: "Archetype Value Rating"
+author: "Josh Havstad"
+date: "2024-02-20"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Archetype Value Rating
+
+## Overview
+
+In this file, I will create the equation for my metric. I will call it the "Archetype Value Rating." This will rate players based on how they perform in specific roles (or archetypes as I will call it). If you are familiar with the game NBA 2k, then you know this is a term which is used to categorize or describe a player's playstyle. For example, a "playmaker" archetype can be used to describe players such as Chris Paul, Draymond Green, or Nikola Jokic. Playmakers can handle the ball, facilitate for others, and create good looks for other players. As you can see, this term can be used to describe players from different positions. Obviously, these players can be described with other archetypes or play-styles as well, but this is just a basic example. The reason I believe that rating players based off "archetypes" is a valuable metric is due to the new era of "positionless" basketball. Nowadays, you don't typically see your stereotypical true point guard or back-to-the-basket center. Positions are often just a technicality. In my opinion, lineups are mostly built around player "archetypes." An example of this would be the Celtics. Their forwards play the role of play-makers and shot creators, while their guards are defenders and off-ball shooters/cutters. Their big men can stretch the floor while also providing rim protection. This goes away from the older era of basketball and the duties you would normally associate with each position.
+
+Creating a metric to rate players on the value they provide in specific archetypes or roles could create opportunities for:
+
+-   A fun discourse on players' abilities to succeed in different roles
+
+-   An evaluation on role players' contributions to their team
+
+-   A ranking of players based on their success in their given role rather than overall talent
+
+The last point is the idea I find really interesting and is the main motivation for this metric. As an NBA fan, I always wonder about a player's true value to their team. Is an inefficient number one option on a bad team truly more valuable than a role player who is excelling in his role and given opportunities? These role players I am referring to are the players that turn contenders into champions. Perhaps this metric could be used for teams to identify players who fulfill a role they need.
+
+## Identifying the Main Archetypes
+
+The main things to decide on are:
+
+1.  How many archetypes are there in basketball?
+
+2.  How specific should the archetypes be?
+
+To answer question 1, I believe that the number should be limited to between 5-10. This will ensure that there are enough players that fulfill each archetype, and there will be enough data and statistics that go along with each one. For example, an archetype such as "shooter" can be evaluated with data on effective field goal percentage, volume of shots from 3, offensive rating, etc. Each team is also very likely to have many players that could fulfill the criteria to be considered "shooters". In terms of criteria, this will probably be my subjective opinion based on knowledge of the players and the sport, but I could include basic qualifications statistically-speaking.
+
+My answer to question 2 relates to my answer for question 1. If I am too specific when choosing archetypes, there will be way too many archetypes and not enough players that fulfill each one. I need to make sure that the archetypes chosen cover the most important areas of basketball and are essential for team success.
+
+The archetypes I choose here can be adjusted or expanded on in the future, but these are the ones that I will use for now:
+
+-   Floor General
+
+-   Pure Scorer
+
+-   POA defender
+
+-   Defensive Anchor
+
+-   Floor Spacer
+
+-   Slasher/Vertical Threat
+
+-   Screener/Rebounder
+
+-   Swiss Army Knife
