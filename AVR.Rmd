@@ -25,6 +25,10 @@ Creating a metric to rate players on the value they provide in specific archetyp
 
 The last point is the idea I find really interesting and is the main motivation for this metric. As an NBA fan, I always wonder about a player's true value to their team. Is an inefficient number one option on a bad team truly more valuable than a role player who is excelling in his role and given opportunities? These role players I am referring to are the players that turn contenders into champions. Perhaps this metric could be used for teams to identify players who fulfill a role they need.
 
+## Problems with Current Metrics
+
+To support the idea of a need for a new metric, I will investigate the current popular metrics and statistics used to evaluate players. Finding the faults or flaws with these will identify the areas that I need to focus on when creating my new player rating system.
+
 ## Identifying the Main Archetypes
 
 The main things to decide on are:
@@ -41,9 +45,15 @@ The archetypes I choose here can be adjusted or expanded on in the future, but t
 
 -   Floor General
 
+    -   This is a ball-handler and play-maker that creates opportunities for others and usually directs the flow of the offense. Think Chris Paul, LeBron James, Nikola Jokic
+
 -   Pure Scorer
 
+    -   This is a player who excels at putting the ball in the basket. It does not have to necessarily be at all 3 levels, but the player is often called upon to score when their team needs a bucket. Think Devin Booker, Kyrie Irving, Shai Gilgeous-Alexander. Many big name players could be considered this archetype
+
 -   POA defender
+
+    -   This is usually a player that defends the best perimeter player on the other team or the player that will bring the ball up the floor. This player disrupts the other team from getting into the flow of their offense. Think Jrue Holiday, Jarred Vanderbilt,
 
 -   Defensive Anchor
 
