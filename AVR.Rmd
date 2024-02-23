@@ -45,22 +45,32 @@ The archetypes I choose here can be adjusted or expanded on in the future, but t
 
 -   Floor General
 
-    -   This is a ball-handler and play-maker that creates opportunities for others and usually directs the flow of the offense. Think Chris Paul, LeBron James, Nikola Jokic
+    -   This is a ball-handler and play-maker that creates opportunities for others and usually directs the flow of the offense. Think Chris Paul, Tyrese Haliburton, Nikola Jokic
 
--   Pure Scorer
+-   Elite Scorer
 
     -   This is a player who excels at putting the ball in the basket. It does not have to necessarily be at all 3 levels, but the player is often called upon to score when their team needs a bucket. Think Devin Booker, Kyrie Irving, Shai Gilgeous-Alexander. Many big name players could be considered this archetype
 
 -   POA defender
 
-    -   This is usually a player that defends the best perimeter player on the other team or the player that will bring the ball up the floor. This player disrupts the other team from getting into the flow of their offense. Think Jrue Holiday, Jarred Vanderbilt,
+    -   This is usually a player that defends the best perimeter player on the other team or the player that will bring the ball up the floor. This player disrupts the other team from getting into the flow of their offense. Think Jrue Holiday, Jaden McDaniels, Alex Caruso.
 
 -   Defensive Anchor
 
+    -   This player is in charge of leading a defense from the inside-out. This will often be a frontcourt player who protects the rim. This archetype also should be able to guard multiple actions/players at once such as when guarding a pick and roll or when rotating over help-side. Think Anthony Davis, Jaren Jackson Jr, Draymond Green.
+
 -   Floor Spacer
+
+    -   This player is respected from 3 point range and provides their team with spacing, opening up the floor and the offense. This player should be able to take and make longer distance shots with volume. Think Buddy Hield, Duncan Robinson, Malik Beasley.
 
 -   Slasher/Vertical Threat
 
--   Screener/Rebounder
+    -   This is a player who excels at getting to the rim or spaces the floor vertically with efficiency. This could be a wing player who cuts off-ball or attacks the rim off-the-dribble as well as a big man who is always a threat to catch a lob off the pick and roll or in the dunker spot. Think Ja Morant, Zion Williamson, Dereck Lively.
+
+-   Screener/Rebounder/Hustle Player
+
+    -   This is often a big man (but not limited to) who creates offense for his team through screen assists and second chances off rebounds. In some rare cases, this could be a guard or wing who plays bigger than his size. Think Clint Capela, Andre Drummond, PJ Tucker, Josh Hart
 
 -   Swiss Army Knife
+
+    -   This is a vague archetype, and I will categorize this as a player who usually excels at many things on the floor (3+ archetypes). This is often a superstar player who has many responsibilities when playing. Think Giannis Antetokounmpo (Scorer, Slasher, Defensive Anchor), LeBron James (Floor General, Scorer, Slasher), Stephen Curry (Floor General, Scorer, Spacer). These are the types of players that teams are built around.
