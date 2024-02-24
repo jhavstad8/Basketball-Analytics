@@ -180,6 +180,7 @@ Now each variable name is simpler and does not contain the ".x" or ".y" from mer
 
 ```{r}
 NBA23 <- mutate_at(NBA23, vars(c(4,6:66)), as.numeric)
+head(NBA23)
 ```
 
 Now, the continuous varaibles in our dataset are numeric as they should be.

@@ -69,14 +69,223 @@ In the model above, I set small forward to the reference category since it had t
 
 Additionally, after running an Analysis of Variance, we see that position (p-value = 1.762e-06) is significantly associated to PER. This tells us that there are natural biases within the formulation of PER which are overvaluing certain aspects of basketball while simultaneously undervaluing other aspects of basketball. This is especially true when you consider the overwhelming amount of talent at the guard and wing positions which would make you think that those positions would have higher PER values than they do.
 
+Obviously, nothing can be perfect, but the main flaw with PER is that it lacks the use of advanced statistics in its calculation. It is essentially a weighted combination of "box-score" statistics which every casual fan is familiar with. PER also tends to favor efficient players who do not turn the ball over as much, which in turn favors big men who shoot closer to the basket and typically do not have many ball-handling duties. However, I believe "efficiency" should be relative to a player's style of play and responsibilities on the floor while playing.
+
+## Which statistics are associated with each position?
+
 ```{r}
 library(cluster)
 library(factoextra)
-NBA23 <- read.csv("~/Desktop/Basketball-Analytics/NBA23.csv")
+NBA23 <- read.csv("~/Desktop/Basketball-Analytics/NBA23.csv",check.names=F)
 head(NBA23)
 ```
 
 I will now use the "NBA23" data set I created in the Data Collection file to analyze which variables/statistics are closely related to each position in basketball. In turn, this will allow us to possibly identify which variables are being overestimated/underestimated when it comes to PER.
+
+```{r}
+# Specify the category you are interested in (e.g., 'PG')
+category_of_interest <- 'PG'
+
+# List of numeric variable names
+numeric_vars <- colnames(NBA23)[sapply(NBA23, is.numeric)]
+
+# Initialize an empty list to store significant ANOVA results
+significant_anova_results_list <- list()
+
+# Iterate over each numeric variable
+for (var in numeric_vars) {
+  # Perform ANOVA comparing the category of interest with each other category
+  anova_result <- aov(get(var) ~ factor(Pos == category_of_interest), data = NBA23)
+  
+  # Check if the p-value is significant
+  if (summary(anova_result)[[1]][[5]][[1]][1] < 0.05) {
+    # Store ANOVA result in the list
+    significant_anova_results_list[[var]] <- summary(anova_result)
+  }
+}
+
+significant_variables <- names(significant_anova_results_list)
+p_values <- sapply(significant_anova_results_list, function(result) result[[1]][[5]][[1]][[1]])
+
+# Create a data frame with significant variables and their p-values
+significant_df <- data.frame(Variable = significant_variables, P_Value = p_values)
+
+# Sort the data frame by p-values in ascending order
+PG <- significant_df[order(significant_df$P_Value), ]
+
+# Display the table
+cat("Point Guard\n")
+print(PG)
+```
+
+The variables most significantly associated with the point guard position are assist percentage, percentage of their made 2 and 3 pointers which were assisted, number of assists, and total rebound percentage.
+
+```{r}
+# Specify the category you are interested in (e.g., 'PG')
+category_of_interest <- 'SG'
+
+# List of numeric variable names
+numeric_vars <- colnames(NBA23)[sapply(NBA23, is.numeric)]
+
+# Initialize an empty list to store significant ANOVA results
+significant_anova_results_list <- list()
+
+# Iterate over each numeric variable
+for (var in numeric_vars) {
+  # Perform ANOVA comparing the category of interest with each other category
+  anova_result <- aov(get(var) ~ factor(Pos == category_of_interest), data = NBA23)
+  
+  # Check if the p-value is significant
+  if (summary(anova_result)[[1]][[5]][[1]][1] < 0.05) {
+    # Store ANOVA result in the list
+    significant_anova_results_list[[var]] <- summary(anova_result)
+  }
+}
+
+significant_variables <- names(significant_anova_results_list)
+p_values <- sapply(significant_anova_results_list, function(result) result[[1]][[5]][[1]][[1]])
+
+# Create a data frame with significant variables and their p-values
+significant_df <- data.frame(Variable = significant_variables, P_Value = p_values)
+
+# Sort the data frame by p-values in ascending order
+SG <- significant_df[order(significant_df$P_Value), ]
+
+# Display the table
+cat("Shooting Guard\n")
+print(SG)
+```
+
+The variables most significantly associated with the shooting guard position have to do with rebounding percentages, block percentage, 2 point percentage, and win shares.
+
+```{r}
+# Specify the category you are interested in (e.g., 'PG')
+category_of_interest <- 'SF'
+
+# List of numeric variable names
+numeric_vars <- colnames(NBA23)[sapply(NBA23, is.numeric)]
+
+# Initialize an empty list to store significant ANOVA results
+significant_anova_results_list <- list()
+
+# Iterate over each numeric variable
+for (var in numeric_vars) {
+  # Perform ANOVA comparing the category of interest with each other category
+  anova_result <- aov(get(var) ~ factor(Pos == category_of_interest), data = NBA23)
+  
+  # Check if the p-value is significant
+  if (summary(anova_result)[[1]][[5]][[1]][1] < 0.05) {
+    # Store ANOVA result in the list
+    significant_anova_results_list[[var]] <- summary(anova_result)
+  }
+}
+
+significant_variables <- names(significant_anova_results_list)
+p_values <- sapply(significant_anova_results_list, function(result) result[[1]][[5]][[1]][[1]])
+
+# Create a data frame with significant variables and their p-values
+significant_df <- data.frame(Variable = significant_variables, P_Value = p_values)
+
+# Sort the data frame by p-values in ascending order
+SF <- significant_df[order(significant_df$P_Value), ]
+
+# Display the table
+cat("Small Forward\n")
+print(SF)
+```
+
+The variables most associated with the small forward position have to do with shot distances, assist percentage, turnover percentage, and percent of 2 point field goals assisted.
+
+```{r}
+# Specify the category you are interested in (e.g., 'PG')
+category_of_interest <- 'PF'
+
+# List of numeric variable names
+numeric_vars <- colnames(NBA23)[sapply(NBA23, is.numeric)]
+
+# Initialize an empty list to store significant ANOVA results
+significant_anova_results_list <- list()
+
+# Iterate over each numeric variable
+for (var in numeric_vars) {
+  # Perform ANOVA comparing the category of interest with each other category
+  anova_result <- aov(get(var) ~ factor(Pos == category_of_interest), data = NBA23)
+  
+  # Check if the p-value is significant
+  if (summary(anova_result)[[1]][[5]][[1]][1] < 0.05) {
+    # Store ANOVA result in the list
+    significant_anova_results_list[[var]] <- summary(anova_result)
+  }
+}
+
+significant_variables <- names(significant_anova_results_list)
+p_values <- sapply(significant_anova_results_list, function(result) result[[1]][[5]][[1]][[1]])
+
+# Create a data frame with significant variables and their p-values
+significant_df <- data.frame(Variable = significant_variables, P_Value = p_values)
+
+# Sort the data frame by p-values in ascending order
+PF <- significant_df[order(significant_df$P_Value), ]
+
+# Display the table
+cat("Power Forward\n")
+print(PF)
+```
+
+The variables most significantly associated with the power forward position are rebounding percentages, percent of made shots that are assisted, dunks, and 2 point field goal percentage.
+
+```{r}
+# Specify the category you are interested in (e.g., 'PG')
+category_of_interest <- 'C'
+
+# List of numeric variable names
+numeric_vars <- colnames(NBA23)[sapply(NBA23, is.numeric)]
+
+# Initialize an empty list to store significant ANOVA results
+significant_anova_results_list <- list()
+
+# Iterate over each numeric variable
+for (var in numeric_vars) {
+  # Perform ANOVA comparing the category of interest with each other category
+  anova_result <- aov(get(var) ~ factor(Pos == category_of_interest), data = NBA23)
+  
+  # Check if the p-value is significant
+  if (summary(anova_result)[[1]][[5]][[1]][1] < 0.05) {
+    # Store ANOVA result in the list
+    significant_anova_results_list[[var]] <- summary(anova_result)
+  }
+}
+
+significant_variables <- names(significant_anova_results_list)
+p_values <- sapply(significant_anova_results_list, function(result) result[[1]][[5]][[1]][[1]])
+
+# Create a data frame with significant variables and their p-values
+significant_df <- data.frame(Variable = significant_variables, P_Value = p_values)
+
+# Sort the data frame by p-values in ascending order
+C <- significant_df[order(significant_df$P_Value), ]
+
+# Display the table
+cat("Center\n")
+print(C)
+```
+
+Similar to the power forward position, the variables most significantly associated with the center position are rebounding percentages and dunks. Other important variables are block percentage, field goal percentage, and shot distance.
+
+```{r}
+PFC <- intersect(PF$Variable,C$Variable)
+length(PFC)
+PFC
+```
+
+We see that there are 20 variables which are significantly associated with both power forward and center.
+
+```{r}
+setdiff(PFC,PG$Variable)
+setdiff(PFC,SG$Variable)
+setdiff(PFC,SF$Variable)
+
+```
 
 ## My Proposed Solution
 
