@@ -1,0 +1,86 @@
+---
+title: "Archetype Value Rating"
+author: "Josh Havstad"
+date: "2024-02-20"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(rvest)
+```
+
+# The Need for a New Statistic
+
+## Overview
+
+In this file, I will look into current, popular metrics which are used to evaluate players' performance. I will try to find if these metrics have flaws or natural biases in them. I will also try to find areas or aspects of basketball that are constantly undervalued or not valued at all. This will allow for a discussion on what the problems are with current metrics and how a new metric can potentially solve this issue.
+
+## Problems with Current Metrics
+
+To support the idea of a need for a new metric, I will investigate the current popular metrics and statistics used to evaluate players. Finding the faults or flaws with these will identify the areas that I need to focus on when creating my new player rating system.
+
+### PER
+
+First, let's look at the most popular statistic, PER. I am unsure on how teams, coaches, and players view this since I have never been involved in a professional organization, but this metric is referenced the most by the fans and the media when discussing a player's overall value for a given season.
+
+PER was created by John Hollinger, and it "sums up all a player's positive accomplishments, subtracts the negative accomplishments, and returns per-minute rating of a player's performance." At the time it was created, PER was advanced due to the fact that it adjusted for pace of play and playing time, and it normalized data across seasons so that the average PER is always 15. Some criticisms of this metric, however, are that it overvalues bigs, undervalues defensive impact, and does not incorporate any advanced statistics.
+
+```{r}
+url3 <- "https://www.basketball-reference.com/leagues/NBA_2023_advanced.html"
+wp3 <- read_html(url3)
+advanced <- html_table(html_nodes(wp3, "#advanced_stats"), fill = TRUE)[[1]]
+write.csv(advanced,"advanced.csv", row.names = FALSE)
+advanced$PER <- as.numeric(advanced$PER)
+head(advanced)
+```
+
+```{r}
+blank <- which(is.na(advanced$PER))
+advanced <- advanced[-blank,]
+advanced <- advanced[,-c(20,25)]
+```
+
+```{r}
+advanced %>%
+  group_by(Pos) %>%
+  filter(n()>2) %>%
+  summarise(mean=mean(PER)) %>%
+  arrange(desc(mean))
+```
+
+We can see from this table that centers and power forwards have the highest average PER values, supporting the idea that this rating favors big men.
+
+```{r}
+advanced$Pos <- as.factor(advanced$Pos)
+advanced$Pos <- relevel(advanced$Pos, ref = "SF")
+PERmodel <- lm(PER~Pos, data = advanced)
+summary(PERmodel)
+anova(PERmodel)
+```
+
+In the model above, I set small forward to the reference category since it had the lowest average PER. When running a linear model, we can see that the only two positions with a significant association with PER are Center and Power Forward. The coefficient estimate of Center tells us that we can expect the PER for a Center to be 4.3573 points higher than the PER for a Small Forward, on average.
+
+Additionally, after running an Analysis of Variance, we see that position (p-value = 1.762e-06) is significantly associated to PER. This tells us that there are natural biases within the formulation of PER which are overvaluing certain aspects of basketball while simultaneously undervaluing other aspects of basketball. This is especially true when you consider the overwhelming amount of talent at the guard and wing positions which would make you think that those positions would have higher PER values than they do.
+
+```{r}
+library(cluster)
+library(factoextra)
+NBA23 <- read.csv("~/Desktop/Basketball-Analytics/NBA23.csv")
+```
+
+```{r}
+
+```
+
+## My Proposed Solution
+
+...
+
+## 

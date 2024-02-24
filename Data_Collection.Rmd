@@ -134,7 +134,7 @@ Now that we have 4 different data sets with various statistics about each NBA pl
 
 ```{r}
 NBA23 <- merge(totals,advanced, by = 'Player')
-del <- c(32,33,34,35,36,37,49,54)
+del <- c(31,32,33,34,35,36,49,54)
 NBA23 <- select(NBA23, -del)
 head(NBA23)
 ```
@@ -153,11 +153,11 @@ This new data set still has repeated columns and slightly new variable names, so
 
 ```{r}
 # create vector with repeating columns to delete them from the data set
-same <- c(31,33,51,52,53,54,55,56,57,65,70)
+same <- c(33,51,52,53,54,55,56,57,65,70)
 NBA23 <- select(NBA23, -same)
 head(NBA23)
 ```
-Now, each column represents a different statistic, but we need to rename the variables so they are easier to referenece when we need to access them.
+Now, each column represents a different statistic, but we need to rename the variables so they are easier to reference when we need to access them.
 
 ## Change variable names
 ```{r}
@@ -187,4 +187,4 @@ This data set will be used to create the player evaluation metric and contains t
 dim(NBA23)
 ```
 
-The "NBA23" data set contains 65 columns (variables) and 540 rows representing the 540 different players from the 2022-2023 NBA season.
+The "NBA23" data set contains 66 columns (variables) and 540 rows representing the 540 different players from the 2022-2023 NBA season.

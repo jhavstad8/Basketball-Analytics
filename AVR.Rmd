@@ -1,7 +1,7 @@
 ---
-title: "Archetype Value Rating"
+title: "AVR"
 author: "Josh Havstad"
-date: "2024-02-20"
+date: "2024-02-24"
 output: html_document
 ---
 
@@ -24,10 +24,6 @@ Creating a metric to rate players on the value they provide in specific archetyp
 -   A ranking of players based on their success in their given role rather than overall talent
 
 The last point is the idea I find really interesting and is the main motivation for this metric. As an NBA fan, I always wonder about a player's true value to their team. Is an inefficient number one option on a bad team truly more valuable than a role player who is excelling in his role and given opportunities? These role players I am referring to are the players that turn contenders into champions. Perhaps this metric could be used for teams to identify players who fulfill a role they need.
-
-## Problems with Current Metrics
-
-To support the idea of a need for a new metric, I will investigate the current popular metrics and statistics used to evaluate players. Finding the faults or flaws with these will identify the areas that I need to focus on when creating my new player rating system.
 
 ## Identifying the Main Archetypes
 
