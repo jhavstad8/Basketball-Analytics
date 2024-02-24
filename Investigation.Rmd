@@ -73,11 +73,10 @@ Additionally, after running an Analysis of Variance, we see that position (p-val
 library(cluster)
 library(factoextra)
 NBA23 <- read.csv("~/Desktop/Basketball-Analytics/NBA23.csv")
+head(NBA23)
 ```
 
-```{r}
-
-```
+I will now use the "NBA23" data set I created in the Data Collection file to analyze which variables/statistics are closely related to each position in basketball. In turn, this will allow us to possibly identify which variables are being overestimated/underestimated when it comes to PER.
 
 ## My Proposed Solution
 
