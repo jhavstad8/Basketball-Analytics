@@ -71,6 +71,36 @@ Additionally, after running an Analysis of Variance, we see that position (p-val
 
 Obviously, nothing can be perfect, but the main flaw with PER is that it lacks the use of advanced statistics in its calculation. It is essentially a weighted combination of "box-score" statistics which every casual fan is familiar with. PER also tends to favor efficient players who do not turn the ball over as much, which in turn favors big men who shoot closer to the basket and typically do not have many ball-handling duties. However, I believe "efficiency" should be relative to a player's style of play and responsibilities on the floor while playing.
 
+### WS/48
+
+WS/48 is "Win shares per 48 minutes" and is a per-minute version of the popular metric, win shares, which measures a player's contribution to winning. Winning is the name of the game, and you would expect WS/48 to accurately rank which players are the best or have the most "impact" on success.
+
+```{r}
+NBA23 %>% arrange(desc(WS/48)) %>% select(Player) %>% head(25)
+```
+
+Above, we can see the players who led the league in WS/48 for the 2022-2023 season. Some notable names in the top 10 are Domantas Sabonis at number 2 and Jarrett Allen at number 8. We also see Evan Mobley, Nikola Vucevic, and Brook Lopez in the top 20.
+
+```{r}
+ws48 <- NBA23 %>% group_by(Pos) %>% filter(n() >2) %>% summarise(mean=mean(WS/48)) %>% arrange(desc(mean))
+
+ggplot(ws48, aes(x = Pos, y = mean)) +
+  geom_bar(stat = "identity", fill = "skyblue", color = "black") +
+  labs(title = "Average Win Shares by Position", x = "Position", y = "Average Win Shares per 48")
+```
+
+Similar to PER, we see that center and power forward have the best average rating when it comes to WS/48.
+
+```{r}
+NBA23$Pos <- as.factor(NBA23$Pos)
+NBA23$Pos <- relevel(NBA23$Pos, ref = "SG")
+WS48model <- lm(WS/48~Pos, data = NBA23)
+summary(WS48model)
+anova(WS48model)
+```
+
+From the model above which implemented an analysis of variance, we see that position has a significant association on WS/48. When comparing to the baseline category of shooting guard, we see that centers and power forwards have strong evidence of a significant difference in WS/48, and point guards have moderate evidence of a difference in WS/48.
+
 ## Which statistics are associated with each position?
 
 ```{r}
