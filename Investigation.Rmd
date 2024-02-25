@@ -101,6 +101,77 @@ anova(WS48model)
 
 From the model above which implemented an analysis of variance, we see that position has a significant association on WS/48. When comparing to the baseline category of shooting guard, we see that centers and power forwards have strong evidence of a significant difference in WS/48, and point guards have moderate evidence of a difference in WS/48.
 
+### VORP
+
+VORP is another popular advanced metric which stands for Value Over Replacement Player. As it says in the title, this statistic is meant to quantify a player's impact on their team compared to a hypothetical "replacement-level" player. A "replacement-level" player is essentially a player that is readily available and could be signed for a minimum-salary. VORP is calculated with various box-score statistics as well. Teams should aim for all their players to be better than some hypothetical minimum-salary player if they want to be competitive and successful. VORP values can be both positive and negative, with larger values indicating that a player contributes more to their team.
+
+```{r}
+# top 20 NBA players in VORP for 2022-2023 season
+NBA23 %>% select(c(Player,VORP)) %>% arrange(desc(VORP)) %>% head(20)
+```
+
+Looking at the best rated players in VORP, we see that Nikola Jokic, Luka Doncic, and Joel Embiid are the only players over 6. Jokic clearly comes out on top with 8.8. These results make sense, as these players had some of the best seasons statistically speaking, and their teams would not be nearly as successful without them.
+
+```{r}
+# players who were below-average in VORP
+NBA23 %>% select(c(Player,VORP)) %>% filter(VORP < mean(VORP)) %>% arrange(desc(VORP)) %>% head(20)
+```
+
+Looking at the players that finished the season with below-average VORP, we find surprising players such as Kentavious Caldwell-Pope, Jaden McDaniels, and Marcus Smart. I say this is surprising due to the fact that these players were instrumental in their teams' success during the 2022-2023 NBA season, as Caldwell-Pope started for the NBA champion Denver Nuggets. These players also served as the primary defenders against many of the top scoring talents in the league, and their team's success would often come down to if they were successful in slowing down the primary scorer on the other team.
+
+```{r}
+# box score stats for the 3 players
+NBA23 %>% 
+  filter(Player %in% c("Kentavious Caldwell-Pope","Jaden McDaniels","Marcus Smart")) %>%
+  mutate_at(vars(PTS, TRB, AST, STL, BLK, TOV, MP), ~./G) %>%
+  select(c(Player, Pos, PTS, 'FG%', TRB, AST, STL, BLK, TOV, MP))
+```
+
+From the table above with the box-score statistics, we see that these players were not huge contributors in counting stats despite all averaging over 30 minutes a night, with none of the players averaging more than 13 points or 4 rebounds. This could explain their low VORP rating, as the statistic factors in these statistics.
+
+```{r}
+# players who were above-average in VORP
+NBA23 %>% select(c(Player,VORP)) %>% filter(VORP > mean(VORP)) %>% arrange(VORP) %>% head(20)
+```
+
+On the flip side, we can see players who finished slightly above-average in VORP (and better than Kentavious Caldwell-Pope, Jaden McDaniels, and Marcus Smart) in the table above. Some players I found surprising were Robert Covington, Thomas Bryant, Jordan Goodwin, and Kenrich Williams. This is not meant to diminish these players, but I would not consider any of those players more impactful or better than the three players I previously looked into that were below-average in VORP. These four players who were above-average in VORP struggled to find consistent minutes on the teams they played for because they simply are not as talented as some of their counterparts in the NBA.
+
+```{r}
+# box score stats for the 4 players
+NBA23 %>% 
+  filter(Player %in% c("Robert Covington","Thomas Bryant","Jordan Goodwin", "Kenrich Williams")) %>%
+  mutate_at(vars(PTS, TRB, AST, STL, BLK, TOV, MP), ~./G) %>%
+  select(c(Player, Pos, PTS, 'FG%', TRB, AST, STL, BLK, TOV, MP))
+```
+
+Looking at the box-score stats for these 4 players, we can see that they tended to average less points per game and assists per game than Caldwell-Pope, McDaniels, and Smart, but their rebounding numbers were fairly strong comparatively. The main difference between these 4 players and the previous 3 players I named is the disparity in the minutes played per game. In my mind, players who could be replaced by a replacement level player are those that struggle to find consistent minutes or roles on their team.
+
+```{r}
+NBA23 %>%
+  group_by(Pos) %>%
+  filter(n() > 2) %>%
+  summarise(mean=mean(VORP)) %>% 
+  arrange(desc(mean))
+```
+
+Once again, we can see that centers have the best average rating, while power forwards come in third. It is very interesting that most of these statistics seem to have centers as the best-rated.
+
+```{r}
+VORPmodel <- lm(VORP~Pos, data = NBA23)
+summary(VORPmodel)
+anova(VORPmodel)
+```
+
+From the analysis of variance, we can see that position has a significant association on VORP, with center, power forward, and point guard all being significantly higher in terms of average VORP as compared to shooting guards. This could indicate a possibly biased metric, similar to the other metrics we have looked at, as it is saying that some positions are more valuable than others. Perhaps this is not biased and it is simply the case that the center, point guard, and power forward positions are the most important in basketball or that those positions currently have the best players in the league.
+
+## What does this tell us?
+
+After looking into a few of the most popular "advanced" metrics that are used to evaluate a player's performance, value, and contribution, we can see that there may be some flaws with the current metrics. First off, each metric seemed to have some biases towards favoring bigs, especially centers. This could be due to the fact that the metrics put more importance on areas of basketball that centers normally thrive at, including rebounding, efficiency, low turnovers, etc. It has become clear that the superstar players will be near the top of each metric regardless of position because they put up great counting stats, but it is the non-star players I am interested in. Because bigs tend to have better metrics on average, this most likely occurs because the non-star centers are being rated better than the non-star wings and guards. We have also seen that counting stats (points, rebounds, assists, blocks, steals, turnovers) have a large impact on how players are rated, but this does not always tell the full story. Some players may be at a natural advantage to acquire these stats due to the role they play or position they are put in, but it does not make them inherently better or more valuable to their team.
+
+Now, maybe centers are simply more important to basketball and the NBA is overflowing with talent at the position. However, as an avid NBA fan, I know that wings and perimeter players tend to be more coveted than bigs when it comes to free agency, trades, draft picks, and the buyout market. Every team is always looking for another versatile wing that can shoot, handle, play defense, etc. Additionally, a lot of teams prefer to go small-ball and they have players playing out of their normal position. Yet, shooting guards and small forwards consistently performed bad, on average, in the metrics we have investigated. I think one reason for this is due to how lineups are set and positions are identified now. Players like LeBron James and Kevin Durant are now considered power forwards even though they primarily played small forward for most of their career. Jimmy Butler, who was once primarily a shooting guard and small forward, is listed as a power forward.
+
+Positions have become almost irrelevant, and due to the advanced skill sets of players in today's NBA, many players could realistically play multiple positions with ease. To show how positional distinctions do not tell us much about players, we can look at which stats are associated with each position.
+
 ## Which statistics are associated with each position?
 
 ```{r}
