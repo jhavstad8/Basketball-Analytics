@@ -181,7 +181,7 @@ NBA23 <- read.csv("~/Desktop/Basketball-Analytics/NBA23.csv",check.names=F)
 head(NBA23)
 ```
 
-I will now use the "NBA23" data set I created in the Data Collection file to analyze which variables/statistics are closely related to each position in basketball. In turn, this will allow us to possibly identify which variables are being overestimated/underestimated when it comes to PER.
+I will use anova to identify which of the variables in the NBA data set are most closely associated to each position in basketball. If there are many similarities between positions, this could support the idea that position lines are blurred and they do not hold much value or tell us much about players anymore.
 
 ```{r}
 # Specify the category you are interested in (e.g., 'PG')
@@ -373,19 +373,28 @@ print(C)
 
 Similar to the power forward position, the variables most significantly associated with the center position are rebounding percentages and dunks. Other important variables are block percentage, field goal percentage, and shot distance.
 
-```{r}
-PFC <- intersect(PF$Variable,C$Variable)
-length(PFC)
-PFC
-```
-
-We see that there are 20 variables which are significantly associated with both power forward and center.
+### Positional Similarities
 
 ```{r}
-setdiff(PFC,PG$Variable)
-setdiff(PFC,SG$Variable)
-setdiff(PFC,SF$Variable)
+PG_SG <- intersect(PG$Variable, SG$Variable)
+SG_SF <- intersect(SG$Variable, SF$Variable)
+SF_PF <- intersect(SF$Variable, PF$Variable)
+PF_C <- intersect(PF$Variable, C$Variable)
 
+# Determine the maximum length among the vectors
+max_length <- max(length(PG_SG), length(SG_SF), length(SF_PF), length(PF_C))
+
+# Pad shorter vectors with NA to match the maximum length
+PG_SG <- c(PG_SG, rep(NA, max_length - length(PG_SG)))
+SG_SF <- c(SG_SF, rep(NA, max_length - length(SG_SF)))
+SF_PF <- c(SF_PF, rep(NA, max_length - length(SF_PF)))
+PF_C <- c(PF_C, rep(NA, max_length - length(PF_C)))
+
+# Combine padded vectors into a data frame
+similarities <- data.frame(PG_SG = PG_SG, SG_SF = SG_SF, SF_PF = SF_PF, PF_C = PF_C)
+
+# Print the resulting data frame
+print(similarities)
 ```
 
 ## My Proposed Solution
