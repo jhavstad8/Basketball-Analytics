@@ -397,8 +397,14 @@ similarities <- data.frame(PG_SG = PG_SG, SG_SF = SG_SF, SF_PF = SF_PF, PF_C = P
 print(similarities)
 ```
 
+We can see from the table above that each one position difference (point guard to shooting guard, shooting guard to small forward, etc.) share many similarities in terms of stats that are significantly associated with the positions. This shows how many positions most likely contribute in similar ways on the court and have similar responsibilities. Obviously, we do not have much in-depth knowledge of the associations between the stats and positions, but from this output and knowledge of basketball, it is clear that positional distinctions and duties are not as clear-cut as they used to be.
+
 ## My Proposed Solution
 
-...
+From this investigation, I have learned many things about the various statistics used in basketball:
+
+1.  Many "advanced" statistics seem to favor bigs, especially centers, which consequentially undervalues wing players. This could indicate that things such as rebounding or low turnovers are being overvalued in the formulation of these statistics.
+2.  Most of the statistics found in basketball aim to evaluate a player's overall impact by including stats from all aspects of basketball, however, many players are given roles which only enable them to succeed in certain aspects of the game. This leads to certain players who are elite at one or two things being rated lower than players that they are actually more impactful then.
+3.  Positions no longer mean much in today's NBA, as players have very versatile skillsets which allow them to technically play multiple positions. This leads to players being listed out of their normal positions.
 
 ## 
