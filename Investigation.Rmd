@@ -1,19 +1,25 @@
 ---
-title: "Archetype Value Rating"
+title: "Investigation into Advanced Statistics"
 author: "Josh Havstad"
 date: "2024-02-20"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = F)
 ```
 
-```{r}
+```{r,include=FALSE}
 library(tidyverse)
 library(dplyr)
 library(ggplot2)
 library(rvest)
+library(cluster)
+library(factoextra)
+```
+
+```{r}
+NBA23 <- read.csv("~/Desktop/Basketball-Analytics/NBA23.csv",check.names=F)
 ```
 
 # The Need for a New Statistic
@@ -114,15 +120,15 @@ Looking at the best rated players in VORP, we see that Nikola Jokic, Luka Doncic
 
 ```{r}
 # players who were below-average in VORP
-NBA23 %>% select(c(Player,VORP)) %>% filter(VORP < mean(VORP)) %>% arrange(desc(VORP)) %>% head(20)
+NBA23 %>% select(c(Player,VORP)) %>% filter(VORP < mean(VORP,na.rm=T)) %>% arrange(desc(VORP)) %>% head(20)
 ```
 
-Looking at the players that finished the season with below-average VORP, we find surprising players such as Kentavious Caldwell-Pope, Jaden McDaniels, and Marcus Smart. I say this is surprising due to the fact that these players were instrumental in their teams' success during the 2022-2023 NBA season, as Caldwell-Pope started for the NBA champion Denver Nuggets. These players also served as the primary defenders against many of the top scoring talents in the league, and their team's success would often come down to if they were successful in slowing down the primary scorer on the other team.
+Looking at the players that finished the season with below-average VORP, we find surprising players such as Jaden McDaniels and Marcus Smart. I say this is surprising due to the fact that these players were instrumental in their teams' success during the 2022-2023 NBA season, as Marcus Smart started for the Boston Celtics who made the Conference Finals, and Jaden McDaniels was big in helping the Timberwolves making the playoffs. These players also served as the primary defenders against many of the top scoring talents in the league, and their team's success would often come down to if they were successful in slowing down the primary scorer on the other team.
 
 ```{r}
 # box score stats for the 3 players
 NBA23 %>% 
-  filter(Player %in% c("Kentavious Caldwell-Pope","Jaden McDaniels","Marcus Smart")) %>%
+  filter(Player %in% c("Jaden McDaniels","Marcus Smart")) %>%
   mutate_at(vars(PTS, TRB, AST, STL, BLK, TOV, MP), ~./G) %>%
   select(c(Player, Pos, PTS, 'FG%', TRB, AST, STL, BLK, TOV, MP))
 ```
@@ -131,20 +137,20 @@ From the table above with the box-score statistics, we see that these players we
 
 ```{r}
 # players who were above-average in VORP
-NBA23 %>% select(c(Player,VORP)) %>% filter(VORP > mean(VORP)) %>% arrange(VORP) %>% head(20)
+NBA23 %>% select(c(Player,VORP)) %>% filter(VORP > mean(VORP,na.rm=T)) %>% arrange(VORP) %>% head(20)
 ```
 
-On the flip side, we can see players who finished slightly above-average in VORP (and better than Kentavious Caldwell-Pope, Jaden McDaniels, and Marcus Smart) in the table above. Some players I found surprising were Robert Covington, Thomas Bryant, Jordan Goodwin, and Kenrich Williams. This is not meant to diminish these players, but I would not consider any of those players more impactful or better than the three players I previously looked into that were below-average in VORP. These four players who were above-average in VORP struggled to find consistent minutes on the teams they played for because they simply are not as talented as some of their counterparts in the NBA.
+On the flip side, we can see players who finished slightly above-average in VORP (and better than Jaden McDaniels and Marcus Smart) in the table above. Some players I found surprising were Robert Covington, Devonte' Graham, Luke Kornet, and Ben Simmons. This is not meant to diminish these players, but I would not consider any of those players more impactful or better than the two players I previously looked into that were below-average in VORP. These four players who were above-average in VORP struggled to find consistent minutes on the teams they played for because they simply are not as talented as some of their counterparts in the NBA.
 
 ```{r}
 # box score stats for the 4 players
 NBA23 %>% 
-  filter(Player %in% c("Robert Covington","Thomas Bryant","Jordan Goodwin", "Kenrich Williams")) %>%
+  filter(Player %in% c("Robert Covington","Devonte' Graham","Luke Kornet", "Ben Simmons")) %>%
   mutate_at(vars(PTS, TRB, AST, STL, BLK, TOV, MP), ~./G) %>%
   select(c(Player, Pos, PTS, 'FG%', TRB, AST, STL, BLK, TOV, MP))
 ```
 
-Looking at the box-score stats for these 4 players, we can see that they tended to average less points per game and assists per game than Caldwell-Pope, McDaniels, and Smart, but their rebounding numbers were fairly strong comparatively. The main difference between these 4 players and the previous 3 players I named is the disparity in the minutes played per game. In my mind, players who could be replaced by a replacement level player are those that struggle to find consistent minutes or roles on their team.
+Looking at the box-score stats for these 4 players, we can see that they tended to average worse stats than McDaniels and Smart, yet they rated better than them. The main difference between these 4 players and the previous 2 players I named is the disparity in the minutes played per game. In my mind, players who could be replaced by a replacement level player are those that struggle to find consistent minutes or roles on their team.
 
 ```{r}
 NBA23 %>%
@@ -173,13 +179,6 @@ Now, maybe centers are simply more important to basketball and the NBA is overfl
 Positions have become almost irrelevant, and due to the advanced skill sets of players in today's NBA, many players could realistically play multiple positions with ease. To show how positional distinctions do not tell us much about players, we can look at which stats are associated with each position.
 
 ## Which statistics are associated with each position?
-
-```{r}
-library(cluster)
-library(factoextra)
-NBA23 <- read.csv("~/Desktop/Basketball-Analytics/NBA23.csv",check.names=F)
-head(NBA23)
-```
 
 I will use anova to identify which of the variables in the NBA data set are most closely associated to each position in basketball. If there are many similarities between positions, this could support the idea that position lines are blurred and they do not hold much value or tell us much about players anymore.
 
