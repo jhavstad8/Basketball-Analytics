@@ -32,6 +32,7 @@ wp1 <- read_html(url1)
 ```
 
 ```{r}
+# the nodes such as totals_stats come from using selector gadget extension on google chrome
 totals <- html_table(html_nodes(wp1, "#totals_stats"), fill = TRUE)[[1]]
 write.csv(totals, "totals.csv", row.names = FALSE)
 ```
